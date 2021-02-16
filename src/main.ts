@@ -5,6 +5,8 @@ Trocar senha
 Alterar dados do cliente
 firebase: https://comercio-eletronico-52e4a-default-rtdb.firebaseio.com/
 */
+import { setEnvironment } from './config/env.config';
+setEnvironment();
 
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -29,6 +31,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options.build());
   SwaggerModule.setup('/docs', app, document);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT);
 }
 bootstrap();
