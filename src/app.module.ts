@@ -10,9 +10,12 @@ import { jwtConstants } from "./auth/constants";
 import { JwtStrategy } from "./auth/strategy/jwt.strategy";
 import { LocalStrategy } from "./auth/strategy/local.strategy";
 import { UserController } from "./controllers/user.controller";
+import { Product } from "./entity/product.entity";
 import { User } from "./entity/user.entity";
+import { ProductService } from "./service/product.service";
 import { UserService } from "./service/user.service";
 import { dbConfig } from "./config/db.config";
+import { ProductController } from './controllers/product.controller';
 
 
 const modelService = [
@@ -21,9 +24,10 @@ const modelService = [
   AuthService,
   LocalStrategy,
   JwtStrategy,
+  ProductService
 ];
-const modelController = [AppController, UserController, AuthController];
-const modelEntity = [User];
+const modelController = [AppController, UserController, AuthController, ProductController];
+const modelEntity = [User, Product];
 
 @Module({
   imports: [
