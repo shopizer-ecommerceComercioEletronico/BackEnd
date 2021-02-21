@@ -3,19 +3,17 @@ import {
   Post,
   Body,
   Get,
-  Put,
-  Delete,
   Res,
   HttpStatus,
-  Param,
   UseGuards,
-  Request,
+  Patch,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { User } from "../entity/user.entity";
+import { ApiTags } from '@nestjs/swagger';
+import { User } from '../entity/user.entity';
 import { UserService } from "../service/user.service";
 
-// Lembrar de Mudar o nome no controller senao da zica
+@ApiTags('User')
 @Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -23,9 +21,9 @@ export class UserController {
 
   
   @Post("register")
-  criarUsuario(@Body() User, @Res() resposta) {
+  createUser(@Body() user: User, @Res() resposta) {
     this.userService
-      .criarUsuario(User)
+      .createUser(user)
       .then((mensagem) => {
         resposta.status(HttpStatus.CREATED).json(mensagem);
       })
@@ -36,23 +34,9 @@ export class UserController {
       });
   }
 
-  @Post("login")
-  Login(@Body() User, @Res() resposta) {
-    this.userService
-      .loginUser(User)
-      .then((mensagem) => {
-        resposta.status(HttpStatus.CREATED).json(mensagem);
-      })
-      .catch(() => {
-        resposta
-          .status(HttpStatus.FORBIDDEN)
-          .json({ mensagem: "Erro ao logar" });
-      });
-  }
-
   @UseGuards(AuthGuard('jwt'))
   @Get("all")
-  buscarUsuario(@Res() resposta, @Request() req) {
+  buscarUsuario(@Res() resposta) {
     this.userService
       .listarUsuarios()
       .then((mensagem) => {
@@ -64,4 +48,19 @@ export class UserController {
           .json({ mensagem: "Erro ao buscar usuarios" });
       });
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Patch()
+  updateUser(@Body() user: User, @Res() resposta) {
+    this.userService
+      .updateUser(user)
+      .then((mensagem) => {
+        resposta.status(HttpStatus.CREATED).json(mensagem);
+      })
+      .catch(() => {
+        resposta.HttpStatus(HttpStatus.BAD_REQUEST)
+        .json({ mensagem: "Erro ao atualizar" });
+      })
+  }
+
 }

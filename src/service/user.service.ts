@@ -21,7 +21,7 @@ export class UserService {
     return await this.userRepository.findOne({email:email});
   }
 
-  async criarUsuario(newUser: User): Promise<User> {
+  async createUser(newUser: User): Promise<User> {
     const newPerson = new User();
     newPerson.firstName = newUser.firstName;
     newPerson.lastName = newUser.lastName;
@@ -37,17 +37,19 @@ export class UserService {
     return await this.userRepository.save(newPerson);
   }
 
-  async UpdateUser(user: User): Promise<User> {
-    const userApdate = await this.userRepository.findOne(user.id);
+  async updateUser(user: User): Promise<User> {
 
-    return await this.userRepository.save(userApdate);
+    if (user.password) {
+      user.password = await bcrypt.hashSync(
+        user.password,
+        this.saltRounds
+      );
+    }
+
+    return await this.userRepository.save(user);
   }
 
   async deleteUser(idUsuario: number): Promise<any> {
     return await this.userRepository.delete(idUsuario);
-  }
-
-  async loginUser(user: User): Promise<any> {
-    return await this.userRepository.findAndCount(user);
   }
 }
