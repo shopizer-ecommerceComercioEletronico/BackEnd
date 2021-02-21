@@ -18,11 +18,10 @@ export class ProductService {
     const newProd = new Product();
     newProd.nome = newProduct.nome;
     newProd.valor = newProduct.valor;
-    newProd.peso  = newProduct.peso;
+    newProd.peso = newProduct.peso;
     newProd.altura = newProduct.altura;
     newProd.comprimento = newProduct.comprimento;
     newProd.estoque = newProduct.estoque;
-    
 
     return await this.productRepository.save(newProduct);
   }

@@ -9,17 +9,15 @@ import {
   Patch,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiTags } from '@nestjs/swagger';
-import { User } from '../entity/user.entity';
+import { ApiTags } from "@nestjs/swagger";
+import { User } from "../entity/user.entity";
 import { UserService } from "../service/user.service";
 
-@ApiTags('User')
+@ApiTags("User")
 @Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
-  //Crud Usuario
 
-  
   @Post("register")
   createUser(@Body() user: User, @Res() resposta) {
     this.userService
@@ -34,7 +32,7 @@ export class UserController {
       });
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard("jwt"))
   @Get("all")
   buscarUsuario(@Res() resposta) {
     this.userService
@@ -49,7 +47,7 @@ export class UserController {
       });
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard("jwt"))
   @Patch()
   updateUser(@Body() user: User, @Res() resposta) {
     this.userService
@@ -58,9 +56,9 @@ export class UserController {
         resposta.status(HttpStatus.CREATED).json(mensagem);
       })
       .catch(() => {
-        resposta.HttpStatus(HttpStatus.BAD_REQUEST)
-        .json({ mensagem: "Erro ao atualizar" });
-      })
+        resposta
+          .HttpStatus(HttpStatus.BAD_REQUEST)
+          .json({ mensagem: "Erro ao atualizar" });
+      });
   }
-
 }

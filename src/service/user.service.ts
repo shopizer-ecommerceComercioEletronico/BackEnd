@@ -17,8 +17,8 @@ export class UserService {
     return await this.userRepository.find();
   }
 
-  async getUser(email:string): Promise<any> {
-    return await this.userRepository.findOne({email:email});
+  async getUser(email: string): Promise<any> {
+    return await this.userRepository.findOne({ email: email });
   }
 
   async createUser(newUser: User): Promise<User> {
@@ -38,12 +38,8 @@ export class UserService {
   }
 
   async updateUser(user: User): Promise<User> {
-
     if (user.password) {
-      user.password = await bcrypt.hashSync(
-        user.password,
-        this.saltRounds
-      );
+      user.password = await bcrypt.hashSync(user.password, this.saltRounds);
     }
 
     return await this.userRepository.save(user);
