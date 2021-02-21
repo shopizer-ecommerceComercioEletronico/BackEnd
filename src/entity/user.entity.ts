@@ -24,5 +24,5 @@ export class User {
   @Column()
   email: string;
   @Column()
-  passWord: string; //vai armazenar o JWT
+  password: string; //vai armazenar o JWT
 }
